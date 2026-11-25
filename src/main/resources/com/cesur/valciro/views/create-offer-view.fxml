@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bpExteriorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cesur.valciro.presentation.controllers.CreateOfferController">
+   <top>
+      <HBox fx:id="hbUpperBar" alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="pnLogo" prefHeight="48.0" prefWidth="48.0" styleClass="logo" />
+            <Label fx:id="lbTitle" text="Nueva candidatura">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Pane fx:id="pnSpacer" prefHeight="60.0" prefWidth="800.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btCancelOffer" mnemonicParsing="false" onAction="#cancel" styleClass="primary-button" text="Cancelar">
+               <padding>
+                  <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
+               </padding>
+            </Button>
+            <Button fx:id="btSaveOffer" mnemonicParsing="false" onAction="#saveOffer" styleClass="secondary-button" text="Guardar candidatura">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../PlusWhite.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Segoe UI Bold" size="14.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
+               </padding>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" BorderPane.alignment="CENTER">
+         <content>
+            <VBox spacing="15.0">
+               <padding>
+                  <Insets bottom="30.0" left="35.0" right="35.0" top="10.0" />
+               </padding>
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label text="Datos de la candidatura">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbFormSubtitle" text="Añade una oportunidad y comienza a seguir su progreso." textFill="#64748b" />
+                     </children>
+                  </VBox>
+
+                  <HBox alignment="TOP_CENTER" spacing="24.0">
+                     <children>
+                        <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="15.0" styleClass="card">
+                                 <padding>
+                                    <Insets bottom="22.0" left="25.0" right="25.0" top="22.0" />
+                                 </padding>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #E6F4EA; -fx-text-fill: #056847; -fx-background-radius: 14;" text="01">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <VBox>
+                                             <children>
+                                                <Label text="Información del puesto">
+                                                   <font>
+                                                      <Font name="System Bold" size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Datos principales de la oportunidad." textFill="#64748b">
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+
+                                    <VBox spacing="6.0">
+                                       <children>
+                                          <Label text="Título del puesto *">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfOfferTitle" promptText="Ej. Desarrollador Java" styleClass="default-input" />
+                                       </children>
+                                    </VBox>
+
+                                    <HBox spacing="16.0">
+                                       <children>
+                                          <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Empresa *">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ChoiceBox fx:id="cbOfferCompany" maxWidth="1.7976931348623157E308" styleClass="default-input" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Estado *">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ChoiceBox fx:id="cbOfferStatus" maxWidth="1.7976931348623157E308" styleClass="default-input" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+
+                                    <HBox spacing="16.0">
+                                       <children>
+                                          <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Fecha de postulación *">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <DatePicker fx:id="dpOfferDate" maxWidth="1.7976931348623157E308" styleClass="default-input" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Salario (€)">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="tfOfferSalary" promptText="Ej. 24000" styleClass="default-input" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+
+                                    <VBox spacing="6.0">
+                                       <children>
+                                          <Label text="Enlace de la oferta">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfOfferLink" promptText="https://..." styleClass="default-input" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+
+                              <VBox spacing="15.0" styleClass="card">
+                                 <padding>
+                                    <Insets bottom="22.0" left="25.0" right="25.0" top="22.0" />
+                                 </padding>
+                                 <children>
+                                    <Label text="Detalles y notas">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox spacing="6.0">
+                                       <children>
+                                          <Label text="Descripción">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="taOfferDescription" prefHeight="90.0" promptText="Funciones, tecnologías, condiciones..." styleClass="default-input" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="6.0">
+                                       <children>
+                                          <Label text="Notas personales">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="taOfferNotes" prefHeight="90.0" promptText="Contactos, impresiones, siguiente paso..." styleClass="default-input" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
