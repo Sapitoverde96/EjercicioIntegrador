@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpExteriorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cesur.valciro.presentation.controllers.CreateOfferController">
+<BorderPane fx:id="bpExteriorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cesur.valciro.presentation.controllers.CreateOfferController">
    <top>
       <HBox fx:id="hbUpperBar" alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,12 +27,12 @@
                </font>
             </Label>
             <Pane fx:id="pnSpacer" prefHeight="60.0" prefWidth="800.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btCancelOffer" mnemonicParsing="false" onAction="#cancel" styleClass="primary-button" text="Cancelar">
+            <Button fx:id="btCancelOffer" mnemonicParsing="false" onAction="#cancel" prefHeight="37.0" prefWidth="170.0" styleClass="primary-button" text="Cancelar">
                <padding>
                   <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
                </padding>
             </Button>
-            <Button fx:id="btSaveOffer" mnemonicParsing="false" onAction="#saveOffer" styleClass="secondary-button" text="Guardar candidatura">
+            <Button fx:id="btSaveOffer" mnemonicParsing="false" onAction="#saveOffer" prefHeight="38.0" prefWidth="283.0" styleClass="secondary-button" text="Guardar candidatura">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
