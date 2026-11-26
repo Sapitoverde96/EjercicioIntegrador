@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpExteriorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cesur.valciro.presentation.controllers.OfferController">
+<BorderPane fx:id="bpExteriorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-color" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cesur.valciro.presentation.controllers.OfferController">
    <center>
       <BorderPane fx:id="bpInteriorPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
@@ -142,7 +142,7 @@
                         <DatePicker fx:id="dpOfferDate" promptText="Fecha" styleClass="default-input" />
                         <Slider fx:id="slOfferSalary" blockIncrement="500.0" max="60000.0" min="0.0" prefWidth="130.0" showTickLabels="false" styleClass="default-input" value="0.0" />
                         <Label fx:id="lbDynamicSalary" contentDisplay="CENTER" text="Cualquier salario" />
-                        <Pane fx:id="pnOfferSpacer" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Pane fx:id="pnOfferSpacer" prefHeight="47.0" prefWidth="90.0" HBox.hgrow="ALWAYS" />
                         <Button fx:id="btClearFilters" mnemonicParsing="false" onAction="#clearFilters" styleClass="primary-button" text="Limpiar" />
                         <Button fx:id="btViewOffer" mnemonicParsing="false" onAction="#showDetail" styleClass="primary-button">
                            <graphic>
