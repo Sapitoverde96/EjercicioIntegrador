@@ -20,16 +20,32 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Imports the job applications stored in the initial CSV file into the database.
- * The whole file is imported inside a single transaction: if any row is invalid,
- * no data is written.
- */
+
 public class CsvImporter {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
 
+    /**
+     * Constructor privado para evitar la instanciación
+     */
     private CsvImporter() {
     }
+
+    /**
+     * Importa un fichero CSV a la base de datos
+     * <p>
+     * Se omiten las líneas vacias y la cabecera (la que empieza por {@code id;}).
+     * Si alguna fila falla, se revierte y no se guarda ninguna fila.
+     * </p>
+     * <p>
+     * Las empresas que no existan se crean automaticamente con el sector
+     * "Sin especificar".
+     * </p>
+     * @param datasource origen de datos desde el que se obtiene la conexión
+     * @param file       ruta del fichero CSV a importar
+     * @return número de filas importadas correctamente
+     * @throws RuntimeException si no se puede leer el fichero, si alguna fila es
+     *                          inválida o si ocurre algun error al acceder a la base de datos
+     */
 
     public static int importFile(DataSource datasource, Path file) {
         List<String> lines;
@@ -74,6 +90,23 @@ public class CsvImporter {
             throw new RuntimeException("Could not import CSV file: " + file, exception);
         }
     }
+
+    /**
+     *Valida sus campos, localiza o crea la empresa
+     * asociada y guarda la oferta correspondiente.
+     *
+     * @param connection conexión activa
+     * @param companyDAO DAO usado para guardar empresas nuevas
+     * @param offerDAO   DAO usado para guardar la oferta
+     * @param companies  almacenamiento de empresas indexadas por nombre en minúsculas y se
+     *                   actualiza si se crea una empresa nueva
+     * @param line       línea del CSV ya recortada
+     * @param file       fichero de origen, se usa para anotar de donde vienen las notas de la oferta
+     * @return {@code 1} si la fila se ha importado correctamente
+     * @throws IllegalArgumentException si la línea tiene menos de 5 campos, si falta
+     *                                  algún campo obligatorio o si el estado no es válido
+     * @throws java.time.format.DateTimeParseException si la fecha no cumple el formato {@code d/M/yyyy}
+     */
 
     private static int importLine(Connection connection, CompanyDAO companyDAO, OfferDAO offerDAO,
                                   Map<String, Company> companies, String line, Path file) {
