@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
+
 public class DatasourceFactory {
+    /** Nombre del fichero con los ajustes de la base de datos. */
     private static final String PROPERTIES_FILE = "database.properties";
     private static final String DEFAULT_URL = "jdbc:mysql://localhost:32768/database";
 
@@ -17,6 +19,13 @@ public class DatasourceFactory {
 
     private DatasourceFactory() {}
 
+    /**
+     * Devuelve el origen de datos de la base de datos. La primera vez lee la
+     * configuración y lo crea; en las siguientes llamadas devuelve el mismo.
+     *
+     * @throws IllegalStateException si no tiene el usuario o la contraseña
+     * @throws RuntimeException      si no se puede leer el fichero de configuración
+     */
     public static DataSource getDataSource() {
         if (datasource != null) {
             return datasource;
@@ -44,6 +53,11 @@ public class DatasourceFactory {
         return datasource;
     }
 
+    /**
+     * Lee los ajustes del fichero externo
+     * @return los ajustes leídos
+     * @throws RuntimeException si no se puede leer el fichero
+     */
     private static Properties loadProperties() {
         Properties properties = new Properties();
         Path externalFile = Path.of(PROPERTIES_FILE);
@@ -59,6 +73,15 @@ public class DatasourceFactory {
         return properties;
     }
 
+    /**
+     * Busca un ajuste  entre las propiedades del sistema, después entre
+     * las variables  y por luegoi en el fichero de configuración.
+     *
+     * @param propertyName    nombre del ajuste en las propiedades del sistema o en el fichero
+     * @param environmentName nombre de la variable
+     * @param properties      ajustes leídos del fichero
+     * @return el valor encontrado o {@code defaultValue} si no hay ninguno
+     */
     private static String setting(String propertyName, String environmentName,
                                   Properties properties, String defaultValue) {
         String systemValue = System.getProperty(propertyName);
