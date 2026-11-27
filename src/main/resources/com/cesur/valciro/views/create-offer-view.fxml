@@ -26,13 +26,13 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Pane fx:id="pnSpacer" prefHeight="60.0" prefWidth="800.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btCancelOffer" mnemonicParsing="false" onAction="#cancel" prefHeight="37.0" prefWidth="170.0" styleClass="primary-button" text="Cancelar">
+            <Pane fx:id="pnSpacer" prefHeight="60.0" prefWidth="437.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btCancelOffer" mnemonicParsing="false" onAction="#cancel" prefHeight="37.0" prefWidth="103.0" styleClass="primary-button" text="Cancelar">
                <padding>
                   <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
                </padding>
             </Button>
-            <Button fx:id="btSaveOffer" mnemonicParsing="false" onAction="#saveOffer" prefHeight="38.0" prefWidth="283.0" styleClass="secondary-button" text="Guardar candidatura">
+            <Button fx:id="btSaveOffer" mnemonicParsing="false" onAction="#saveOffer" prefHeight="38.0" prefWidth="214.0" styleClass="secondary-button" text="Guardar candidatura">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
