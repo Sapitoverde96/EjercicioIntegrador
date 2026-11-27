@@ -11,7 +11,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
+
 public class DatabaseInitializer {
+    /**
+     * Crea las tablas y, si están vacías, carga los datos de ejemplo. Se usa el
+     * fichero {@code candidaturas.csv} si existe. Si no existe usa el fichero {@code data.sql}.
+     *
+     * @param datasource origen de datos desde el que se obtiene la conexion
+     * @throws RuntimeException si no se pueden crear las tablas ni cargar los datos
+     */
     public static void init(DataSource datasource) {
         runSQL(datasource, "schema.sql");
         if (tablesAreEmpty(datasource)) {
@@ -24,6 +32,12 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Comprueba si no hay ofertas guardadas.
+     *
+     * @param datasource origen de datos desde el que se obtiene la conexión
+     * @return {@code true} si no hay ninguna oferta, {@code false} si hay oferta
+     */
     public static boolean tablesAreEmpty(DataSource datasource) {
         String sqlStatement = "SELECT COUNT(*) FROM offer";
         try (
@@ -37,6 +51,14 @@ public class DatabaseInitializer {
         }
     }
 
+    /**
+     * Ejecuta las instrucciones SQL que contiene un fichero del proyecto.
+     *
+     * @param datasource origen de datos desde el que se obtiene la conexión
+     * @param sqlFile    nombre del fichero SQL
+     * @throws IllegalArgumentException si el fichero no termina en {@code .sql}
+     * @throws RuntimeException         si no se encuentra el ficherp o falla algo en sql
+     */
     private static void runSQL(DataSource datasource, String sqlFile) {
         try (InputStream inStream = DatabaseInitializer.class.getResourceAsStream("/" + sqlFile)) {
             if (inStream == null) {
