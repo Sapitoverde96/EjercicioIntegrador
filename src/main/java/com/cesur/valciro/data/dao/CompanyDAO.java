@@ -43,7 +43,6 @@ public class CompanyDAO implements BasicDAO<Company> {
      * @return lista de empresas (vacía si no hay ninguna)
      * @throws RuntimeException si falla la base de datos
      */
-
     @Override
     public List<Company> findAll(Connection connection) {
         String sqlStatement = "SELECT * FROM company";
@@ -135,7 +134,6 @@ public class CompanyDAO implements BasicDAO<Company> {
      * @param entity empresa con los nuevos datos
      * @throws RuntimeException si no hay conexión configurada o falla la base de datos
      */
-
     @Override
     public void update(Company entity) {
         if (this.connection != null) {
@@ -150,6 +148,13 @@ public class CompanyDAO implements BasicDAO<Company> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
 
+    /**
+     * Actualiza los datos de una empresa que ya existe usando la conexión indicada.
+     *
+     * @param connection conexión que se usará para actualizar
+     * @param entity     empresa con los nuevos datos (debe tener id)
+     * @throws RuntimeException si falla la base de datos
+     */
     @Override
     public void update(Connection connection, Company entity) {
         String sqlStatement = "UPDATE company SET name = ?, industry = ?, website = ?, date = ? WHERE id = ?";
@@ -205,7 +210,6 @@ public class CompanyDAO implements BasicDAO<Company> {
      * @return la empresa con los datos de esa fila
      * @throws SQLException si alguna columna no existe o no se puede leer
      */
-
     static Company mapper(ResultSet rtSet, String table) throws SQLException {
         Company company = new Company();
         company.setId(rtSet.getLong(table + "id"));

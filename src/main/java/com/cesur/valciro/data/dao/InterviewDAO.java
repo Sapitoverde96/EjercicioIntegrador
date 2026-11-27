@@ -12,6 +12,11 @@ public class InterviewDAO implements BasicDAO<Interview> {
     private final DataSource datasource;
     private final Connection connection;
 
+    /**
+     * Consulta base que trae los datos de la entrevista junto con los de su oferta
+     * y la empresa de esta. Las columnas de la oferta llevan el prefijo {@code offer_}
+     * y las de la empresa {@code offer_company_}, para no confundirlas entre sí.
+     */
     private static final String SELECT_INTERVIEW_OFFER_AND_COMPANY =
             "SELECT interview.id, interview.date, interview.notes, interview.type, interview.outcome, " +
                     "offer.id AS offer_id, offer.title AS offer_title, offer.status AS offer_status, " +
@@ -33,6 +38,12 @@ public class InterviewDAO implements BasicDAO<Interview> {
         this.connection = connection;
     }
 
+    /**
+     * Devuelve todas las entrevistas guardadas, cada una con su oferta y empresa.
+     *
+     * @return lista de entrevistas (vacía si no hay ninguna)
+     * @throws RuntimeException si no hay conexión configurada o falla la base de datos
+     */
     @Override
     public List<Interview> findAll() {
         if (this.connection != null) {
@@ -45,7 +56,14 @@ public class InterviewDAO implements BasicDAO<Interview> {
             return findAll(connection);
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
-
+    /**
+     * Devuelve todas las entrevistas guardadas, cada una con su oferta y empresa,
+     * usando la conexión indicada.
+     *
+     * @param connection conexión que se usará para la consulta
+     * @return lista de entrevistas (vacía si no hay ninguna)
+     * @throws RuntimeException si falla la base de datos
+     */
     @Override
     public List<Interview> findAll(Connection connection) {
         List<Interview> interviews = new ArrayList<>();
@@ -56,7 +74,13 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
         return interviews;
     }
-
+    /**
+     * Busca una entrevista por su identificador.
+     *
+     * @param id identificador de la entrevista
+     * @return la entrevista con su oferta y empresa, o un {@link Optional} vacío si no existe
+     * @throws RuntimeException si no hay conexión configurada o falla la base de datos
+     */
     @Override
     public Optional<Interview> findById(Long id) {
         if (this.connection != null) {
@@ -83,7 +107,15 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
         return Optional.empty();
     }
-
+    /**
+     * Guarda una entrevista nueva. Al terminar, la entrevista recibida ya tiene
+     * asignado el id que le ha dado la base de datos. Su oferta debe existir ya
+     * (tener id).
+     *
+     * @param entity entrevista que se quiere guardar
+     * @return la misma entrevista pero con su id
+     * @throws RuntimeException si no hay conexión configurada o falla la base de datos
+     */
     @Override
     public Interview save(Interview entity) {
         if (this.connection != null) {
@@ -97,6 +129,15 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
 
+    /**
+     * Guarda una entrevista nueva usando la conexión indicada. Al terminar, la
+     * entrevista recibida ya tiene asignado el id generado por la base de datos.
+     *
+     * @param connection conexión que se usará para guardar
+     * @param entity     entrevista que se quiere guardar (su oferta debe tener id)
+     * @return la misma entrevista, ya con su id
+     * @throws RuntimeException si falla la base de datos
+     */
     @Override
     public Interview save(Connection connection, Interview entity) {
         String sqlStatement = "INSERT INTO interview (offer_id, date, notes, type, outcome) " +
@@ -117,6 +158,14 @@ public class InterviewDAO implements BasicDAO<Interview> {
         return entity;
     }
 
+
+
+    /**
+     * Actualiza los datos de una entrevista que ya existe (se identifica por su id).
+     *
+     * @param entity entrevista con los nuevos datos
+     * @throws RuntimeException si no hay conexión configurada o falla la base de datos
+     */
     @Override
     public void update(Interview entity) {
         if (this.connection != null) {
@@ -131,6 +180,13 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
 
+    /**
+     * Actualiza los datos de una entrevista que ya existe usando la conexión indicada.
+     *
+     * @param connection conexión que se usará para actualizar
+     * @param entity     entrevista con los nuevos datos (debe tener id)
+     * @throws RuntimeException si falla la base de datos
+     */
     @Override
     public void update(Connection connection, Interview entity) {
         String sqlStatement = "UPDATE interview SET offer_id = ?, date = ?, notes = ?, type = ?, outcome = ? " +
@@ -146,6 +202,12 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
 
+    /**
+     * Borra la entrevista con el id indicado.
+     *
+     * @param id identificador de la entrevista que se quiere borrar
+     * @throws RuntimeException si no hay conexión configurada o falla la base de datos
+     */
     @Override
     public void deleteById(Long id) {
         if (this.connection != null) {
@@ -169,7 +231,19 @@ public class InterviewDAO implements BasicDAO<Interview> {
         } catch (SQLException exception) { throw new RuntimeException(exception); }
     }
 
-    private static Interview mapper(ResultSet rtSet) throws SQLException {
+    /**
+     * Convierte la fila actual del resultado en un objeto {@link Interview},
+     * incluida su oferta (y la empresa).
+     * <p>
+     * Las columnas de la oferta se leen con el prefijo {@code offer_}, tal y como
+     * las nombra la consulta base.
+     * </p>
+     *
+     * @param rtSet resultado de la consulta, colocado en la fila que se quiere leer
+     * @return la entrevista con los datos de esa fila
+     * @throws SQLException si alguna columna no existe o no se puede leer
+     */
+        private static Interview mapper(ResultSet rtSet) throws SQLException {
         Interview interview = new Interview();
         interview.setId(rtSet.getLong("id"));
         interview.setOffer(OfferDAO.mapper(rtSet, "offer_"));
