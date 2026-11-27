@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
 public class OfferDetailController implements Initializable {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -67,12 +68,24 @@ public class OfferDetailController implements Initializable {
     private final BasicDAO<Interview> interviewDAO;
     private Offer offer;
 
+    /**
+     * Preapara el controlador con la candidtura
+     *
+     * @param offerDAO     acceso a los datos de las candidaturas
+     * @param interviewDAO acceso a los datos de las entrevistas
+     * @param offer        candidatura que se quiere ver
+     */
     public OfferDetailController(BasicDAO<Offer> offerDAO, BasicDAO<Interview> interviewDAO, Offer offer) {
         this.offerDAO = offerDAO;
         this.interviewDAO = interviewDAO;
         this.offer = offer;
     }
 
+    /**
+     * Cyarga la candidatura y sus entrevistas y muestra sus datos en pantalla.
+     *
+     * @throws RuntimeException si no se pueden cargar los datos
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpTable();
@@ -85,16 +98,31 @@ public class OfferDetailController implements Initializable {
         loadInterviews();
     }
 
+    /**
+     * Abre el formulario para editar la candidatura que se está viendo.
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void editOffer(ActionEvent actionEvent) {
         ViewManager.openOfferForm(offer);
     }
 
+    /**
+     * Abre el formulario para añadir una entrevista a la candidatura.
+     *
+     */
     @FXML
     public void addInterview(ActionEvent actionEvent) {
         ViewManager.openInterviewManager(offer, null, true);
     }
 
+    /**
+     * Abre el formulario para editar la entrevista seleccionada en la tabla.
+     * Si no hay ninguna seleccionada muestra un aviso.
+     *
+     * @param actionEvent evento que lanza la acción
+     */
     @FXML
     public void editInterview(ActionEvent actionEvent) {
         Interview selected = tvDetailInterviews.getSelectionModel().getSelectedItem();
@@ -105,6 +133,11 @@ public class OfferDetailController implements Initializable {
         ViewManager.openInterviewManager(offer, selected, true);
     }
 
+    /**
+     * Pide confirmación y borra la entrevista seleccionada en la tabla.
+     * Si no hay ninguna seleccionada, muestra un aviso.
+     * @throws RuntimeException si no se puede borrar la entrevista
+     */
     @FXML
     public void deleteInterview(ActionEvent actionEvent) {
         Interview selected = tvDetailInterviews.getSelectionModel().getSelectedItem();
@@ -128,21 +161,40 @@ public class OfferDetailController implements Initializable {
         loadInterviews();
     }
 
+    /**
+     * Vuelve a la pantalla de candidaturas.
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void back(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("offer-view", "Jobflow: Candidaturas");
     }
 
+    /**
+     * Abre la pantalla de candidaturas.
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void goToOffers(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("offer-view", "Jobflow: Candidaturas");
     }
 
+    /**
+     * Abre la pantalla de empresas.
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void goToCompanies(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("company-view", "Jobflow: Empresas");
     }
 
+    /**
+     * Abre la pantalla de entrevistas.
+     *
+     */
     @FXML
     public void goToInterviews(ActionEvent actionEvent) {
         ViewManager.openInterviewManager(null, null, false);
@@ -152,6 +204,12 @@ public class OfferDetailController implements Initializable {
         tcDetailInterviewId.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getId()));
         tcDetailInterviewDate.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getDate()));
         tcDetailInterviewDate.setCellFactory(column -> new TableCell<>() {
+            /**
+             * Muestra la fecha con formato dd/MM/yyyy, o nada si la celda está vacía.
+             *
+             * @param date  fecha que se va a mostrar
+             * @param empty indica si la celda está vacía
+             */
             @Override
             protected void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -166,6 +224,10 @@ public class OfferDetailController implements Initializable {
                 row.getValue().getNotes() == null ? "-" : row.getValue().getNotes()));
     }
 
+    /**
+     * Muestra en pantalla los datos de la candidatura: empresa, estado, fecha, salario,
+     * enlace, descripción y notas.
+     */
     private void renderOffer() {
         lbDetailTitle.setText(offer.getTitle());
         lbDetailCompany.setText(offer.getCompany().getName());
@@ -179,6 +241,11 @@ public class OfferDetailController implements Initializable {
         lbDetailNotes.setText(valueOrDash(offer.getNotes()));
     }
 
+    /**
+     * Carga en la tabla las entrevistas de la candidatura y actualiza el contador
+     *
+     * @throws RuntimeException si no se pueden cargar las entrevistas
+     */
     private void loadInterviews() {
         var interviews = interviewDAO.findAll().stream()
                 .filter(interview -> offer.getId().equals(interview.getOffer().getId()))
@@ -187,10 +254,22 @@ public class OfferDetailController implements Initializable {
         lbDetailInterviewCount.setText(String.valueOf(interviews.size()));
     }
 
+    /**
+     * Devuelve un guion cuando el texto está vacío, para que la pantalla no muestre
+     * espacios en blanco.
+     *
+     * @param value texto que se quiere mostrar
+     * @return el texto indicado, o {@code "-"} si está vacío
+     */
     private String valueOrDash(String value) {
         return value == null || value.isBlank() ? "-" : value;
     }
 
+    /**
+     * Muestra un aviso de error en pantalla con el mensaje indicado.
+     *
+     * @param message texto que se quiere mostrar
+     */
     private void showError(String message) {
         new Alert(Alert.AlertType.ERROR, message, ButtonType.OK).showAndWait();
     }
