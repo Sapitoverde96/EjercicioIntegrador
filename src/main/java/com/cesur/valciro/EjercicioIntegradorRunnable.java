@@ -14,18 +14,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * Clase principal de la aplicación del Ejercicio Integrador, ahora con JavaFX.
- * @author Ciro Álvarez Garrido
- * @version v2.0
- */
+
 public class EjercicioIntegradorRunnable extends Application {
 
     /**
-     * Función principal de la aplicación. Inicializa todo lo necesario para la ejecución de la aplicación.
-     * @param stage Es la ventana principal de la aplicación por la que inicia al ejecutar.
-     * @author Ciro Álvarez Garrido
-     * @version v2.0
+     * Inicializa JavaFX
      */
     @Override
     public void start(Stage stage) throws IOException {
