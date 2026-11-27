@@ -31,6 +31,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la pantalla de entrevistas: muestra la tabla de entrevistas y el
+ * formulario para registrarlas o editarlas.
+ */
 public class InterviewController implements Initializable {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -74,6 +78,14 @@ public class InterviewController implements Initializable {
     private final boolean returnToDetail;
     private Interview editingInterview;
 
+    /**
+     * Crea el controlador con los datos que necesita la pantalla de entrevistas.
+     *
+     * @param offerDAO DAO de candidaturas, para rellenar la lista de ofertas
+     * @param interviewDAO DAO de entrevistas, para consultarlas y guardarlas
+     * @param contextOffer candidatura desde la que se abre la pantalla
+     * @param interviewToEdit entrevista que se quiere editar
+     */
     public InterviewController(BasicDAO<Offer> offerDAO, BasicDAO<Interview> interviewDAO,
                                Offer contextOffer, Interview interviewToEdit, boolean returnToDetail) {
         this.offerDAO = offerDAO;
@@ -83,6 +95,10 @@ public class InterviewController implements Initializable {
         this.returnToDetail = returnToDetail;
     }
 
+    /**
+     * Prepara la tabla y el formulario, carga las opciones y muestra las entrevistas.
+     * @throws RuntimeException si no se pueden cargar las candidaturas o las entrevistas
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpTable();
@@ -123,6 +139,11 @@ public class InterviewController implements Initializable {
         lbInterviewFormSubtitle.setText("Registra una entrevista asociada a una candidatura.");
     }
 
+    /**
+     * Guarda la entrevista del formulario y refresca la tabla.
+     * Si faltan datos obligatorios, muestra un aviso de error.
+     *
+     */
     @FXML
     public void saveInterview(ActionEvent actionEvent) {
         try {
@@ -168,6 +189,9 @@ public class InterviewController implements Initializable {
         }
     }
 
+    /**
+     * Pide confirmación antes de borrar la entrevista seleccionada
+     */
     @FXML
     public void deleteInterview(ActionEvent actionEvent) {
         Interview selected = tvInterviewsTable.getSelectionModel().getSelectedItem();
@@ -192,6 +216,11 @@ public class InterviewController implements Initializable {
         newInterview(null);
     }
 
+    /**
+     * Vuelve al detalle de la candidatura
+     *
+     * @param actionEvent evento que ejecuta la acción
+     */
     @FXML
     public void back(ActionEvent actionEvent) {
         if (returnToDetail && contextOffer != null) {
@@ -216,6 +245,9 @@ public class InterviewController implements Initializable {
         ViewManager.openInterviewManager(null, null, false);
     }
 
+    /**
+     * Configura las columnas de la tabla de entrevistas y el formato de la fecha.
+     */
     private void setUpTable() {
         tcInterviewId.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getId()));
         tcInterviewOffer.setCellValueFactory(row ->
@@ -224,6 +256,12 @@ public class InterviewController implements Initializable {
                 new SimpleStringProperty(row.getValue().getOffer().getCompany().getName()));
         tcInterviewDate.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getDate()));
         tcInterviewDate.setCellFactory(column -> new TableCell<>() {
+            /**
+             * Muestra la fecha de la entrevista en formato dd/MM/yyyy, o nada si la celda está vacía.
+             *
+             * @param date fecha de la entrevista
+             * @param empty indica si la celda está vacía
+             */
             @Override
             protected void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -238,11 +276,17 @@ public class InterviewController implements Initializable {
                 row.getValue().getNotes() == null ? "-" : row.getValue().getNotes()));
     }
 
+    /**
+     * Carga las candidaturas en el selector ordenadas por titulo
+     *
+     * @throws RuntimeException si no se pueden consultar las candidaturas
+     */
     private void loadOfferChoices() {
         cbInterviewOffer.getItems().setAll(offerDAO.findAll().stream()
                 .sorted(Comparator.comparing(Offer::getTitle, String.CASE_INSENSITIVE_ORDER))
                 .toList());
         cbInterviewOffer.setConverter(new StringConverter<>() {
+
             @Override
             public String toString(Offer offer) {
                 return offer == null ? "" : offer.getTitle() + " · " + offer.getCompany().getName();
@@ -255,6 +299,11 @@ public class InterviewController implements Initializable {
         });
     }
 
+    /**
+     * Carga las entrevistas en la tabla y actualiza el contador.
+     *
+     * @throws RuntimeException si no se pueden consultar las entrevistas
+     */
     private void loadInterviews() {
         List<Interview> interviews = interviewDAO.findAll();
         if (returnToDetail && contextOffer != null) {
@@ -277,6 +326,11 @@ public class InterviewController implements Initializable {
         lbInterviewFormSubtitle.setText("Actualiza los datos de la entrevista seleccionada.");
     }
 
+    /**
+     * Selecciona en el desplegable la candidatura con el identificador indicado.
+     *
+     * @param offerId identificador de la candidatura
+     */
     private void selectOffer(Long offerId) {
         cbInterviewOffer.getItems().stream()
                 .filter(offer -> offer.getId().equals(offerId))
