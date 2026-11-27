@@ -20,6 +20,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+/**
+ * Pantalla del formulario de candidaturas
+ */
 public class CreateOfferController implements Initializable {
     @FXML
     private Label lbTitle;
@@ -46,12 +49,24 @@ public class CreateOfferController implements Initializable {
     private final BasicDAO<Company> companyDAO;
     private final Offer offerToEdit;
 
+    /**
+     * Prepara el controlador con los datos necesarios y la candidatura que se va a editar si la hay.
+     *
+     * @param offerDAO    acceso a los datos de las candidaturas
+     * @param companyDAO  acceso a los datos de las empresas
+     * @param offerToEdit candidatura que se está editando, o {@code null} si es nueva
+     */
     public CreateOfferController(BasicDAO<Offer> offerDAO, BasicDAO<Company> companyDAO, Offer offerToEdit) {
         this.offerDAO = offerDAO;
         this.companyDAO = companyDAO;
         this.offerToEdit = offerToEdit;
     }
 
+    /**
+     * Prepara el formulario al abrirlo: carga las empresas y los estados disponibles
+     *
+     * @throws RuntimeException si no se pueden cargar las empresas
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cbOfferCompany.getItems().setAll(companyDAO.findAll());
@@ -80,6 +95,12 @@ public class CreateOfferController implements Initializable {
         taOfferNotes.setText(offerToEdit.getNotes() == null ? "" : offerToEdit.getNotes());
     }
 
+    /**
+     * Guarda la candidatura del formulario, creándola o actualizándola según corresponda,
+     * y vuelve a la lista de candidaturas. Muestra un aviso si faltan datos obligatorios
+     * o  si el salario no es unnúmero valido.
+     *
+     */
     @FXML
     public void saveOffer(ActionEvent actionEvent) {
         try {
@@ -133,11 +154,22 @@ public class CreateOfferController implements Initializable {
         }
     }
 
+    /**
+     * Cierra el formulario sin guardar y vuelve a la lista de candidaturas
+     *
+     * @param actionEvent evento que lanza la acción
+     */
     @FXML
     public void cancel(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("offer-view", "Jobflow: Candidaturas");
     }
 
+    /**
+     * Convierte un texto vacío en {@code null} para no guardar campos sin datos.
+     *
+     * @param value texto que se quiere comprobar
+     * @return el texto recortado o {@code null} si estaba vacío
+     */
     private String emptyToNull(String value) {
         String trimmed = value == null ? "" : value.trim();
         return trimmed.isEmpty() ? null : trimmed;
