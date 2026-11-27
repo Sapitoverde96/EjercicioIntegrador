@@ -16,28 +16,43 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Cambia entre las ventanas de la aplicación y de guardar
+ * los datos que cada una necesita.
+ */
 public class ViewManager {
     private static final String VIEW_PATH = "views/";
     private static final String VIEW_EXTENSION = ".fxml";
     private static Stage stage;
-
     private static BasicDAO<Company> companyDAO;
     private static BasicDAO<Offer> offerDAO;
     private static BasicDAO<Interview> interviewDAO;
-
     private static Offer selectedOffer;
     private static Offer offerToEdit;
     private static Offer interviewOffer;
     private static Interview interviewToEdit;
     private static boolean returnToOfferDetail;
 
+
     private ViewManager() {
     }
 
+    /**
+     * Guarda la ventana principal donde se mostrarán las vistas
+     *
+     * @param stage ventana principal de la aplicación
+     */
     public static void setStage(Stage stage) {
         ViewManager.stage = stage;
     }
 
+    /**
+     * Guarda los DAOs que usarán los controladores para acceder a los datos
+     *
+     * @param companyDAO   DAO de empresas
+     * @param offerDAO     DAO de ofertas
+     * @param interviewDAO DAO de entrevistas
+     */
     public static void setDAOs(
             BasicDAO<Company> companyDAO,
             BasicDAO<Offer> offerDAO,
@@ -48,17 +63,35 @@ public class ViewManager {
         ViewManager.interviewDAO = interviewDAO;
     }
 
+    /**
+     * Guarda la oferta elegida y abre la vista con el detalle de la candidatura
+     *
+     * @param offer oferta que se quiere ver
+     */
     public static void openOfferDetail(Offer offer) {
         selectedOffer = offer;
         changeToWithInjection("offer-detail-view", "Jobflow: Detalle de candidatura");
     }
 
+    /**
+     * Guarda la oferta a editar y abre el formulario de candidaturas.
+     * Si la oferta es {@code null}, el formulario sirve para crear una nueva.
+     *
+     * @param offer oferta que se quiere editar o para crear una nueva
+     */
     public static void openOfferForm(Offer offer) {
         offerToEdit = offer;
         changeToWithInjection("create-offer-view",
                 offer == null ? "Jobflow: Nueva candidatura" : "Jobflow: Editar candidatura");
     }
 
+    /**
+     * Guarda la oferta y la entrevista elegidas y abre la vista de entrevistas.
+     *
+     * @param offer          oferta a la que pertenecen las entrevistas
+     * @param interview      entrevista que se quiere editar, o {@code null} si es nueva
+     * @param returnToDetail {@code true} si al terminar se debe volver al detalle de la oferta
+     */
     public static void openInterviewManager(Offer offer, Interview interview, boolean returnToDetail) {
         interviewOffer = offer;
         interviewToEdit = interview;
@@ -66,6 +99,13 @@ public class ViewManager {
         changeToWithInjection("interview-view", "Jobflow: Entrevistas");
     }
 
+    /**
+     * Carga la vista y entrega a su controlador los datos guardados y
+     * la muestra en la ventana principal con el título indicado
+     *
+     * @param viewName    nombre de la vista, sin la carpeta ni la extensión
+     * @throws IllegalArgumentException si el nombre de la vista no es conocido
+     */
     public static void changeToWithInjection(String viewName, String windowTitle) {
         FXMLLoader fxLoader = new FXMLLoader(EjercicioIntegradorRunnable.class.getResource(
                 VIEW_PATH + viewName + VIEW_EXTENSION)
