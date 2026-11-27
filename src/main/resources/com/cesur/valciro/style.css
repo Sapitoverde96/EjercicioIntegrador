@@ -1,0 +1,185 @@
+.background-color {
+    -fx-background-color: #f8f7fb;
+}
+
+.primary-button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #6B6880;
+    -fx-background-radius: 15px;
+}
+
+.primary-button:hover,
+.primary-button:pressed,
+.primary-button:focused {
+    -fx-background-color: #f0f8f2;
+    -fx-text-fill: #008147;
+    -fx-background-radius: 15px;
+}
+
+.secondary-button {
+    -fx-background-color: #008147;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+}
+
+.secondary-button:hover,
+.secondary-button:pressed {
+    -fx-background-color: #36693e;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+}
+
+.delete-button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #6B6880;
+    -fx-background-radius: 15px;
+}
+
+.delete-button:hover,
+.delete-button:pressed,
+.delete-button:focused {
+    -fx-background-color: #fff1f3;
+    -fx-text-fill: #b94b5d;
+    -fx-background-radius: 15px;
+}
+
+.default-input {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e6e4ed;
+    -fx-text-fill: #6B6880;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+.default-input:pressed,
+.default-input:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #008147;
+    -fx-text-fill: #6B6880;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+.slider .track {
+    -fx-background-color: transparent;
+}
+
+.slider .thumb {
+    -fx-background-color: #008147;
+    -fx-border-color: #008147;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.slider .thumb:pressed {
+    -fx-background-color: #36693e;
+    -fx-border-color: #36693e;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.table-column {
+    -fx-background-color: #fbfcfe;
+    -fx-text-fill: #9894a9;
+    -fx-font-weight: bold;
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e6e4ed;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.logo {
+    -fx-background-image: url("./BriefcaseWhite.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 65%;
+    -fx-background-color: #008147;
+    -fx-background-radius: 15px;
+}
+
+.offers {
+    -fx-background-image: url("./BriefcaseGreen.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%;
+    -fx-background-color: #f0f8f2;
+    -fx-background-radius: 15px;
+}
+
+.pending {
+    -fx-background-image: url("./ClockOrange.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%;
+    -fx-background-color: #fdf8ec;
+    -fx-background-radius: 15px;
+}
+
+.interviews {
+    -fx-background-image: url("./CalendarPurple.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%;
+    -fx-background-color: #f3eefc;
+    -fx-background-radius: 15px;
+}
+
+#hbUpperBar,
+#hbLowerBar {
+    -fx-background-color: #ffffff;
+}
+
+#btOffers #ivOffers {
+    -fx-image: url("./BriefcaseGray.png");
+}
+#btCompanies #ivCompanies {
+    -fx-image: url("./BuildingGray.png");
+}
+#btInterviews #ivInterviews {
+    -fx-image: url("./CalendarGray.png");
+}
+#btViewOffer #ivViewOffer {
+    -fx-image: url("./EyeGray.png");
+}
+#btEditOffer #ivEditOffer {
+    -fx-image: url("./PencilGray.png");
+}
+#btDeleteOffer #ivDeleteOffer {
+    -fx-image: url("./TrashGray.png");
+}
+
+#btOffers:hover   #ivOffers,
+#btOffers:pressed #ivOffers,
+#btOffers:focused #ivOffers {
+    -fx-image: url("./BriefcaseGreen.png");
+}
+#btCompanies:hover   #ivCompanies,
+#btCompanies:pressed #ivCompanies,
+#btCompanies:focused #ivCompanies {
+    -fx-image: url("./BuildingGreen.png");
+}
+#btInterviews:hover   #ivInterviews,
+#btInterviews:pressed #ivInterviews,
+#btInterviews:focused #ivInterviews {
+    -fx-image: url("./CalendarGreen.png");
+}
+#btViewOffer:hover   #ivViewOffer,
+#btViewOffer:pressed #ivViewOffer,
+#btViewOffer:focused #ivViewOffer {
+    -fx-image: url("./EyeGreen.png");
+}
+#btEditOffer:hover   #ivEditOffer,
+#btEditOffer:pressed #ivEditOffer,
+#btEditOffer:focused #ivEditOffer {
+    -fx-image: url("./PencilGreen.png");
+}
+#btDeleteOffer:hover   #ivDeleteOffer,
+#btDeleteOffer:pressed #ivDeleteOffer,
+#btDeleteOffer:focused #ivDeleteOffer {
+    -fx-image: url("./TrashRed.png");
+}

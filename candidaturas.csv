@@ -10,7 +10,6 @@
 10;C10_DevOps_Engineer;REJECTED;Airbnb;08/09/2026
 11;C11_Cloud_Architect;PENDING;Spotify;17/06/2026
 12;C12_Fullstack_Engineer;REJECTED;Cabify;02/06/2026
-13;C13_Software_Engineer;REJECTED;Airbnb;24/11/2026
 14;C14_Scrum_Master;PENDING;Amazon;04/10/2026
 15;C15_Data_Scientist;REJECTED;Apple;28/01/2026
 16;C16_AI_Engineer;REJECTED;Inditex;18/12/2026
@@ -48,3 +47,4 @@
 48;C48_Data_Analyst;REJECTED;Meta;19/07/2026
 49;C49_Mobile_Developer;REJECTED;Amazon;09/10/2026
 50;C50_Scrum_Master;PENDING;Twitter;23/07/2026
+51;Candidatura01;PENDING;Google;24/11/2022

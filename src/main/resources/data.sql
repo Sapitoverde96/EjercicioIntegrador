@@ -1,0 +1,32 @@
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (1, 'Acme Software', 'Tecnología', 'https://www.acmesoftware.es', '2026-01-15');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (2, 'Nova Systems', 'Consultoría IT', 'https://www.novasystems.es', '2026-02-03');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (3, 'BlueWave Games', 'Videojuegos', 'https://www.bluewavegames.com', '2026-02-20');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (4, 'Cloudify', 'Cloud y DevOps', 'https://www.cloudify.io', '2026-03-11');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (5, 'DataPeak', 'Análisis de datos', 'https://www.datapeak.ai', '2026-04-07');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (6, 'Finlytics', 'Fintech', 'https://www.finlytics.com', '2026-05-18');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (7, 'GreenByte', 'Energía y sostenibilidad', 'https://www.greenbyte.es', '2026-06-02');
+INSERT IGNORE INTO company (id, name, industry, website, date) VALUES (8, 'PixelForge Studio', 'Videojuegos', 'https://www.pixelforge.studio', '2026-06-25');
+
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (1, 'Desarrollador Java Junior', 1, 'interview', '2026-09-03', 'https://www.acmesoftware.es/empleo/java-junior', 'Desarrollo de servicios backend con Java y Spring', 'Contacto directo con el responsable técnico', 24000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (2, 'Desarrollador Backend Spring Boot', 1, 'pending', '2026-10-12', 'https://www.acmesoftware.es/empleo/backend', 'Mantenimiento de APIs REST y base de datos MySQL', 'Pendiente de respuesta tras enviar el CV', 30000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (3, 'Programador C++ Motores Gráficos', 3, 'interview', '2026-09-20', 'https://www.bluewavegames.com/careers/cpp', 'Desarrollo de herramientas y renderizado en C++', 'Piden portfolio con proyectos propios', 28000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (4, 'Desarrollador Full Stack', 2, 'rejected', '2026-08-14', 'https://www.novasystems.es/trabaja', 'Aplicaciones web con Java y JavaScript', 'Buscaban más experiencia previa', 26000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (5, 'Ingeniero DevOps Junior', 4, 'pending', '2026-11-02', 'https://www.cloudify.io/jobs/devops', 'Automatización de despliegues con Docker y CI/CD', 'Salario no publicado en la oferta', NULL);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (6, 'Analista de Datos', 5, 'accepted', '2026-07-21', 'https://www.datapeak.ai/careers/analista', 'Análisis y visualización de datos con SQL', 'Oferta aceptada, incorporación en enero', 27500.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (7, 'Desarrollador JavaFX', 2, 'rejected', '2026-08-30', 'https://www.novasystems.es/trabaja', 'Aplicaciones de escritorio con JavaFX', 'Proceso cerrado sin entrevista', 22000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (8, 'Desarrollador Backend Kotlin', 6, 'interview', '2026-10-05', 'https://www.finlytics.com/jobs/kotlin', 'Servicios financieros con Kotlin y microservicios', 'Segunda fase con equipo técnico', 32000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (9, 'Programador de Gameplay', 8, 'pending', '2026-11-10', NULL, 'Mecánicas de juego y herramientas internas', 'Oferta recibida por contacto, sin enlace', 25000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (10, 'Técnico de Sistemas', 7, 'rejected', '2026-09-28', 'https://www.greenbyte.es/empleo', 'Administración de servidores y soporte', 'Rechazada por no encajar con el horario', 21000.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (11, 'Desarrollador Web Frontend', 6, 'interview', '2026-10-22', 'https://www.finlytics.com/jobs/frontend', 'Interfaces web con HTML, CSS y JavaScript', NULL, 26500.00);
+INSERT INTO offer (id, title, company_id, status, date, link, description, notes, salary) VALUES (12, 'Ingeniero de Datos Junior', 5, 'interview', '2026-11-15', 'https://www.datapeak.ai/careers/data-engineer', 'Pipelines de datos y bases de datos relacionales', 'Prueba técnica enviada', 29000.00);
+
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (1, 1, '2026-09-10', 'Llamada inicial con recursos humanos', 'telephone', 'positive');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (2, 1, '2026-09-18', 'Prueba técnica sobre Java y SQL', 'technical', 'pending');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (3, 3, '2026-09-27', 'Presentación del portfolio por videollamada', 'online', 'positive');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (4, 3, '2026-10-06', 'Ejercicio de C++ con punteros y memoria', 'technical', 'pending');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (5, 4, '2026-08-22', 'Preguntas de algoritmos y bases de datos', 'technical', 'negative');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (6, 6, '2026-07-28', 'Primera toma de contacto con la empresa', 'telephone', 'positive');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (7, 6, '2026-08-05', 'Visita a la oficina y reunión con el equipo', 'onsite', 'positive');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (8, 8, '2026-10-12', 'Entrevista técnica por videollamada', 'online', 'positive');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (9, 10, '2026-10-04', 'Llamada breve para conocer disponibilidad', 'telephone', 'negative');
+INSERT INTO interview (id, offer_id, date, notes, type, outcome) VALUES (10, 11, '2026-10-29', NULL, 'onsite', 'pending');
