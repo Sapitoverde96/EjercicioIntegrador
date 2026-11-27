@@ -39,6 +39,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Gestiona la tabla de ofertas, los
+ * filtros, las acciones y los contadores de la pantalla.
+ */
 public class OfferController implements Initializable {
     private static final String ALL_COMPANIES = "Todas las empresas";
     private static final String ALL_STATUSES = "Todos los estados";
@@ -117,6 +121,13 @@ public class OfferController implements Initializable {
     private final BasicDAO<Company> companyDAO;
     private final ObservableList<Offer> allOffers = FXCollections.observableArrayList();
 
+    /**
+     * Crea el controlador con los datos que necesita la pantalla de candidaturas.
+     *
+     * @param offerDAO DAO de candidaturas
+     * @param interviewDAO DAO de entrevistas, para los contadores y el borrado
+     * @param companyDAO DAO de empresas para el filtro de empresas
+     */
     public OfferController(BasicDAO<Offer> offerDAO, BasicDAO<Interview> interviewDAO,
                            BasicDAO<Company> companyDAO) {
         this.offerDAO = offerDAO;
@@ -124,6 +135,11 @@ public class OfferController implements Initializable {
         this.companyDAO = companyDAO;
     }
 
+    /**
+     * Prepara la tabla y los filtros, carga las candidaturas y actualiza  contadores
+     *
+     * @throws RuntimeException si no se pueden cargar los datos iniciales
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpTable();
@@ -131,6 +147,7 @@ public class OfferController implements Initializable {
         setUpFilters();
         loadOffers();
     }
+
 
     @FXML
     public void goToOffers(ActionEvent actionEvent) {
@@ -162,6 +179,11 @@ public class OfferController implements Initializable {
         ViewManager.openOfferDetail(selected);
     }
 
+    /**
+     * Abre el formulario para editar la candidatura seleccionada
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void enableEdit(ActionEvent actionEvent) {
         Offer selected = tvOffersTable.getSelectionModel().getSelectedItem();
@@ -172,6 +194,11 @@ public class OfferController implements Initializable {
         ViewManager.openOfferForm(selected);
     }
 
+    /**
+     * Pide confirmación antes de borrar la candidatura seleccionada y avisa si tiene
+     * entrevistas asociadas
+     * @throws RuntimeException si no se pueden consultar las entrevistas o borrar la candidatura
+     */
     @FXML
     public void enableDelete(ActionEvent actionEvent) {
         Offer selected = tvOffersTable.getSelectionModel().getSelectedItem();
@@ -203,6 +230,11 @@ public class OfferController implements Initializable {
         loadOffers();
     }
 
+    /**
+     * Devuelve los filtros a su estado inicial y vuelve a mostrar todas las candidaturas
+     *
+     * @param actionEvent evento que ejecuta la accion
+     */
     @FXML
     public void clearFilters(ActionEvent actionEvent) {
         tfOfferTitle.clear();
@@ -213,6 +245,9 @@ public class OfferController implements Initializable {
         applyFilters();
     }
 
+    /**
+     * Configura la tabla de candidaturas como columnas, edición del estado y apertura
+     */
     private void setUpTable() {
         tvOffersTable.setEditable(true);
         tcOfferId.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getId()));
@@ -228,6 +263,12 @@ public class OfferController implements Initializable {
         });
         tcOfferDate.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getDate()));
         tcOfferDate.setCellFactory(column -> new TableCell<>() {
+            /**
+             * Muestra la fecha de la oferta en formato dd/MM/yyyy, o nada si la celda está vacía.
+             *
+             * @param date fecha de la oferta
+             * @param empty indica si la celda está vacía
+             */
             @Override
             protected void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -236,6 +277,12 @@ public class OfferController implements Initializable {
         });
         tcOfferSalary.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getSalary()));
         tcOfferSalary.setCellFactory(column -> new TableCell<>() {
+            /**
+             * Muestra el salario con dos decimales y el símbolo del euro, o un guion si no hay salario.
+             *
+             * @param salary salario de la oferta
+             * @param empty indica si la celda está vacía
+             */
             @Override
             protected void updateItem(Double salary, boolean empty) {
                 super.updateItem(salary, empty);
@@ -253,6 +300,9 @@ public class OfferController implements Initializable {
         });
     }
 
+    /**
+     * Conecta los filtros de la pantalla
+     */
     private void setUpFilters() {
         tfOfferTitle.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
         cbOfferCompany.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
@@ -267,6 +317,11 @@ public class OfferController implements Initializable {
         lbDynamicSalary.setText("Cualquier salario");
     }
 
+    /**
+     * Actualiza las opciones de empresa y filtros
+     *
+     * @throws RuntimeException si no se pueden consultar las empresas
+     */
     private void refreshFilterOptions() {
         String selectedCompany = cbOfferCompany.getValue();
         String selectedStatus = cbOfferStatus.getValue();
@@ -288,12 +343,20 @@ public class OfferController implements Initializable {
                 ? selectedStatus : ALL_STATUSES);
     }
 
+    /**
+     * Carga las candidaturas, aplica los filtros y actualiza los contadores
+     *
+     * @throws RuntimeException si no se pueden consultar las candidaturas o las entrevistas
+     */
     private void loadOffers() {
         allOffers.setAll(offerDAO.findAll());
         applyFilters();
         updateStats();
     }
 
+    /**
+     * Aplica los filtros de título, empresa, estado, fecha y salario a la lista de candidaturas.
+     */
     private void applyFilters() {
         String titleFilter = tfOfferTitle.getText() == null
                 ? "" : tfOfferTitle.getText().trim().toLowerCase();
@@ -316,6 +379,11 @@ public class OfferController implements Initializable {
         tvOffersTable.getItems().setAll(filtered);
     }
 
+    /**
+     * Actualiza los contadores de candidaturas, pendientes y entrevistas.
+     *
+     * @throws RuntimeException si no se pueden consultar las entrevistas
+     */
     private void updateStats() {
         lbDynamicOffers.setText(String.valueOf(allOffers.size()));
         lbDynamicPendings.setText(String.valueOf(allOffers.stream()
