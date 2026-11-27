@@ -25,7 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
 public class CompanyController implements Initializable {
+    /** Formato en el que se muestran las fechas en la tabla de empresas. */
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML
@@ -57,11 +59,17 @@ public class CompanyController implements Initializable {
     private final BasicDAO<Offer> offerDAO;
     private Company editingCompany;
 
+
     public CompanyController(BasicDAO<Company> companyDAO, BasicDAO<Offer> offerDAO) {
         this.companyDAO = companyDAO;
         this.offerDAO = offerDAO;
     }
 
+    /**
+     * Tabla y formulario al abrir la pantalla,esta carga las empresas guardadas
+     * y deja la fecha de hoy por defecto.
+     * @throws RuntimeException si no se pueden cargar las empresas
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpTable();
@@ -75,6 +83,11 @@ public class CompanyController implements Initializable {
         loadCompanies();
     }
 
+    /**
+     * Limpia el formulario y lo prepara para dar de alta una empresa nueva.
+     *
+     * @param actionEvent evento que eejecuta la acción
+     */
     @FXML
     public void newCompany(ActionEvent actionEvent) {
         editingCompany = null;
@@ -88,6 +101,12 @@ public class CompanyController implements Initializable {
         tfCompanyName.requestFocus();
     }
 
+    /**
+     * Guarda la empresa que haya en el formulario.
+     * Si falta algún dato obligatorio, muestra un aviso en pantalla.
+     *
+     * @param actionEvent evento que dispara la acción
+     */
     @FXML
     public void saveCompany(ActionEvent actionEvent) {
         try {
@@ -124,6 +143,11 @@ public class CompanyController implements Initializable {
         }
     }
 
+    /**
+     * Borra la empresa seleccionada en la tabla. Si tiene candidaturas asociadas,
+     * muestra un aviso antes de borrarla para que el usuario confirme la accion
+     * @throws RuntimeException si no se pueden consultar las candidaturas o borrar la empresa
+     */
     @FXML
     public void deleteCompany(ActionEvent actionEvent) {
         Company selected = tvCompaniesTable.getSelectionModel().getSelectedItem();
@@ -154,21 +178,36 @@ public class CompanyController implements Initializable {
         newCompany(null);
     }
 
+    /**
+     * Abre la pantalla de candidaturas.
+     *
+     */
     @FXML
     public void goToOffers(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("offer-view", "Jobflow: Candidaturas");
     }
 
+    /**
+     * Abre la pantalla de empresas.
+     *
+     */
     @FXML
     public void goToCompanies(ActionEvent actionEvent) {
         ViewManager.changeToWithInjection("company-view", "Jobflow: Empresas");
     }
 
+    /**
+     * Abre la pantalla de entrevistas.
+     *
+     */
     @FXML
     public void goToInterviews(ActionEvent actionEvent) {
         ViewManager.openInterviewManager(null, null, false);
     }
 
+    /**
+     * Configura las columnas de la tabla de empresas, con la fecha en formato dd/MM/yyyy.
+     */
     private void setUpTable() {
         tcCompanyId.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getId()));
         tcCompanyName.setCellValueFactory(row -> new SimpleStringProperty(row.getValue().getName()));
@@ -177,6 +216,11 @@ public class CompanyController implements Initializable {
                 row.getValue().getWebsite() == null ? "-" : row.getValue().getWebsite()));
         tcCompanyDate.setCellValueFactory(row -> new SimpleObjectProperty<>(row.getValue().getDate()));
         tcCompanyDate.setCellFactory(column -> new TableCell<>() {
+            /**
+             * Muestra la fecha con formato dd/MM/yyyy
+             *
+             * @param date  fecha que se va a mostrar
+             */
             @Override
             protected void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -185,10 +229,20 @@ public class CompanyController implements Initializable {
         });
     }
 
+    /**
+     * Vuelve a cargar el listado de empresas para que la tabla muestre los datos actuales.
+     *
+     * @throws RuntimeException si no se pueden obtener las empresas
+     */
     private void loadCompanies() {
         tvCompaniesTable.getItems().setAll(companyDAO.findAll());
     }
 
+    /**
+     * Rellena el formulario con la empresa indicada y lo prepara para editarla.
+     *
+     * @param company empresa cuyos datos se van a mostrar
+     */
     private void fillForm(Company company) {
         editingCompany = company;
         tfCompanyName.setText(company.getName());
@@ -199,6 +253,11 @@ public class CompanyController implements Initializable {
         lbCompanyFormSubtitle.setText("Modifica los datos de la empresa seleccionada.");
     }
 
+    /**
+     * Muestra un aviso de error en pantalla con el mensaje indicado
+     *
+     * @param message texto que se quiere mostrar
+     */
     private void showError(String message) {
         new Alert(Alert.AlertType.ERROR, message, ButtonType.OK).showAndWait();
     }
